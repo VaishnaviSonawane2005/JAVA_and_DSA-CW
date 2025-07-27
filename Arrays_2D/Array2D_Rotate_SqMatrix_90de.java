@@ -1,3 +1,5 @@
+package Arrays_2D;
+
 import java.util.Scanner;
 
 public class Array2D_Rotate_SqMatrix_90de {

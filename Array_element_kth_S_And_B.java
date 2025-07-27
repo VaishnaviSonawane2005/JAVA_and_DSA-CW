@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 class kth_Largest_and_smallest{
-     public int[] kth_largest(int[] arr,int k,int n){
+     public int[] kth_largest(int[] arr,int k){
         Arrays.sort(arr);
         int[] ans={arr[k],arr[arr.length-(k+1)]};
         return ans;
@@ -19,7 +19,7 @@ public class Array_element_kth_S_And_B {
         System.out.println("ENTER THE kth ELEMENT:");
          int k=sc.nextInt();
         kth_Largest_and_smallest obj=new kth_Largest_and_smallest();
-        int[] ans=obj.kth_largest(arr,k,n);
+        int[] ans=obj.kth_largest(arr,k);
         System.out.println("kth Smallest:"+ans[0]);
         System.out.println("kth Largest:"+ans[1]);
     }
