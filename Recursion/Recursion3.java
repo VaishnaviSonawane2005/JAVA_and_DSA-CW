@@ -2,7 +2,7 @@ package Recursion;
 
 import java.util.Scanner;
 
-public class Recursion4 {
+public class Recursion3 {
     static void num_multiples(int n, int k){
         if(k == 0){
             return;
