@@ -1,6 +1,7 @@
 package Recursion;
-
 import java.util.Scanner;
+
+//Finding GCD with 2 methods using Recursion
 
 public class Recursion4 {
 
