@@ -9,9 +9,9 @@ public class Recursion7_PalindromeCheck {
         return SmallAns + s.charAt(idx);
     }
 
-    static boolean pointercheck(String s, int l, int r){
+    static boolean pointerCheck(String s, int l, int r){
         if (l >= r) return true;
-        return (s.charAt(l) == s.charAt(r) && pointercheck(s, l+1, r-1));
+        return (s.charAt(l) == s.charAt(r) && pointerCheck(s, l+1, r-1));
     }
 
     public static void main(String[] args) {
@@ -26,6 +26,6 @@ public class Recursion7_PalindromeCheck {
             System.out.printf("%s is not a Palindrome", s);
         }
 
-        System.out.println("\n"+pointercheck(s, 0, s.length()-1));
+        System.out.println("\n"+ pointerCheck(s, 0, s.length()-1));
     }
 }
