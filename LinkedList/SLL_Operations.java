@@ -1,118 +1,316 @@
 package LinkedList;
 
 public class SLL_Operations {
-    static class Node{
+
+    // ================= NODE DEFINITION =================
+    // Each node stores data and reference to next node
+    static class Node {
         int data;
         Node next;
 
-        public Node(int data){
+        Node(int data) {
             this.data = data;
             this.next = null;
         }
     }
+
+    // Head points to first node of linked list
     private Node head;
 
-    public boolean isEmpty(){
+    // ================= BASIC OPERATIONS =================
+
+    // Checks whether linked list is empty
+    public boolean isEmpty() {
         return head == null;
     }
 
-    public void insertAtBegin(int data){
-        Node nn = new Node(data);
-        nn.next = head;
-        head = nn;
+    // Inserts a node at the beginning (O(1))
+    public void insertAtBeginning(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
     }
 
-    public void insertAtEnd(int data){
-        Node nn = new Node(data);
-        if(isEmpty()) {
-            head = nn;
+    // Inserts a node at the end (O(n))
+    public void insertAtEnd(int data) {
+        Node newNode = new Node(data);
+
+        if (isEmpty()) {
+            head = newNode;
             return;
         }
 
         Node temp = head;
-        while(temp.next != null){
+        while (temp.next != null)
             temp = temp.next;
-        }
-        temp.next = nn;
+
+        temp.next = newNode;
     }
 
-    public void insertAtPos(int data, int pos){
-
-        if (pos <= 0) {
+    // Inserts node at a given position (1-based index)
+    public void insertAtPosition(int data, int position) {
+        if (position <= 0) {
             System.out.println("Invalid position");
             return;
         }
 
-        Node nn = new Node(data);
-        if(pos == 1) {
-            insertAtBegin(data);
+        if (position == 1) {
+            insertAtBeginning(data);
             return;
         }
-        else{
-            Node temp = head;
-            for(int i = 0; i < pos-1 && temp != null; i++){
-                temp = temp.next;
-            }
-            if (temp == null) {
-                System.out.println("Position out of range");
-                return;
-            }
-            nn.next = temp.next;
-            temp.next = nn;
+
+        Node temp = head;
+        for (int i = 1; i < position - 1 && temp != null; i++)
+            temp = temp.next;
+
+        if (temp == null) {
+            System.out.println("Position out of range");
+            return;
         }
+
+        Node newNode = new Node(data);
+        newNode.next = temp.next;
+        temp.next = newNode;
     }
 
-    public void deleteFromBegin(){
-        if(head == null){
+    // ================= DELETE OPERATIONS =================
+
+    // Deletes first node of the list
+    public void deleteFromBeginning() {
+        if (isEmpty()) {
             System.out.println("List is empty");
+            return;
         }
         head = head.next;
     }
 
-    public void deleteFromEnd(){
-        if(head == null){
+    // Deletes last node of the list
+    public void deleteFromEnd() {
+        if (isEmpty()) {
             System.out.println("List is empty");
-        }
-        if(head.next == null){
-            deleteFromBegin();
             return;
         }
-        Node temp = head;
-        while(temp.next.next != null){
-            temp = temp.next;
+
+        if (head.next == null) {
+            head = null;
+            return;
         }
+
+        Node temp = head;
+        while (temp.next.next != null)
+            temp = temp.next;
+
         temp.next = null;
     }
 
-    public void display(){
-        if(isEmpty())
-            System.out.println("Empty LL");
-        else{
-            Node temp = head;
-            while(temp != null){
-                System.out.print(temp.data + " -> ");
-                temp = temp.next;
+    // Deletes node by value
+    public void deleteByValue(int value) {
+        if (isEmpty()) return;
+
+        if (head.data == value) {
+            head = head.next;
+            return;
+        }
+
+        Node temp = head;
+        while (temp.next != null && temp.next.data != value)
+            temp = temp.next;
+
+        if (temp.next == null)
+            System.out.println("Value not found");
+        else
+            temp.next = temp.next.next;
+    }
+
+    // Deletes node at a given position
+    public void deleteAtPosition(int position) {
+        if (isEmpty() || position <= 0) return;
+
+        if (position == 1) {
+            head = head.next;
+            return;
+        }
+
+        Node temp = head;
+        for (int i = 1; i < position - 1 && temp.next != null; i++)
+            temp = temp.next;
+
+        if (temp.next == null) {
+            System.out.println("Position out of range");
+            return;
+        }
+
+        temp.next = temp.next.next;
+    }
+
+    // ================= SEARCH OPERATIONS =================
+
+    // Searches element using iteration
+    public boolean search(int key) {
+        Node temp = head;
+        while (temp != null) {
+            if (temp.data == key)
+                return true;
+            temp = temp.next;
+        }
+        return false;
+    }
+
+    // Searches element using recursion
+    public boolean searchRecursive(Node node, int key) {
+        if (node == null) return false;
+        if (node.data == key) return true;
+        return searchRecursive(node.next, key);
+    }
+
+    // ================= UTILITY OPERATIONS =================
+
+    // Returns length of linked list
+    public int length() {
+        int count = 0;
+        Node temp = head;
+        while (temp != null) {
+            count++;
+            temp = temp.next;
+        }
+        return count;
+    }
+
+    // Displays linked list elements
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("List is empty");
+            return;
+        }
+
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " -> ");
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+
+    // ================= REVERSAL OPERATIONS =================
+
+    // Reverses list using iteration
+    public void reverse() {
+        Node prev = null, curr = head;
+
+        while (curr != null) {
+            Node next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+    }
+
+    // Reverses list using recursion
+    public Node reverseRecursive(Node node) {
+        if (node == null || node.next == null)
+            return node;
+
+        Node rest = reverseRecursive(node.next);
+        node.next.next = node;
+        node.next = null;
+        return rest;
+    }
+
+    // ================= ADVANCED OPERATIONS =================
+
+    // Finds middle element using slow & fast pointer
+    public void findMiddle() {
+        if (isEmpty()) return;
+
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        System.out.println("Middle Element: " + slow.data);
+    }
+
+    // Detects loop using Floyd’s Cycle Detection
+    public boolean detectLoop() {
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast)
+                return true;
+        }
+        return false;
+    }
+
+    // Removes loop if present
+    public void removeLoop() {
+        Node slow = head, fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) {
+                slow = head;
+                while (slow.next != fast.next) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                fast.next = null;
+                return;
             }
-            System.out.println("null");
         }
     }
 
+    // Finds nth node from end using two-pointer technique
+    public void nthFromEnd(int n) {
+        Node first = head, second = head;
+
+        for (int i = 0; i < n; i++) {
+            if (first == null) return;
+            first = first.next;
+        }
+
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+
+        System.out.println(n + "th node from end: " + second.data);
+    }
+
+    // Removes duplicate elements from sorted list
+    public void removeDuplicates() {
+        Node curr = head;
+        while (curr != null && curr.next != null) {
+            if (curr.data == curr.next.data)
+                curr.next = curr.next.next;
+            else
+                curr = curr.next;
+        }
+    }
+
+    // ================= MAIN METHOD =================
     public static void main(String[] args) {
+
         SLL_Operations list = new SLL_Operations();
-        list.insertAtBegin(5);
-        list.insertAtEnd(12);
-        list.insertAtEnd(12);
-        list.display();
-        list.insertAtPos(2, 2);
-        list.display();
-        list.insertAtEnd(12);
-        list.display();
-        list.insertAtEnd(4);
-        list.display();
-        list.deleteFromBegin();
-        list.display();
-        list.deleteFromEnd();
+
+        list.insertAtEnd(10);
+        list.insertAtEnd(20);
+        list.insertAtBeginning(5);
+        list.insertAtPosition(15, 3);
+
         list.display();
 
+        list.deleteByValue(20);
+        list.display();
+
+        list.reverse();
+        list.display();
+
+        list.findMiddle();
+        System.out.println("Length: " + list.length());
+        System.out.println("Search 15: " + list.search(15));
     }
 }
