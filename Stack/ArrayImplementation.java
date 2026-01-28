@@ -36,7 +36,7 @@ public class ArrayImplementation {
             System.out.println("Stack is empty");
             return;
         }
-        for(int i = top - 1; i >= 0; i--){
+        for(int i = 0; i < top; i++){
             System.out.print(arr[i]+" ");
         }
     }
